@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h1>상품 상세 보기 페이지 - show.html</h1><br>
+<h2>상품 이름 : {{ product.title }}</h2><br>
+<h4>상품 가격 : {{ product.price }}</h4><br>
+<h5>조회수 : {{ product.view_count }}</h5>
+<p>설명 : {{ product.description }}</p><br><br>
+
+<a href="{% url 'products:edit' product.pk %}" class="btn btn-secondary">수정</a>
+    <!--edit은 pk값을 넘겨받아야함(views에서 그렇게 설정함). 그래서 product.pk를 써야함-->
+<a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">삭제</a>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">삭제하시겠습니까?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                <!--<a href="{% url 'products:delete' product.pk %}" class="btn btn-primary">삭제</button>-->
+                <!--a 태그는 삭제 노노. POST 방식을 써야 하므로 form을 쓴다-->
+                <form action="{% url 'products:delete' product.pk %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="삭제" class="btn btn-primary">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
